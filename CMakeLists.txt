@@ -20,6 +20,7 @@ pkg_check_modules(swscale libswscale REQUIRED)
 
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 14)
+  add_compile_options(-Wno-deprecated-declarations)
 endif()
 
 ###################################################
