@@ -60,9 +60,12 @@ void ImageTransportImageStreamer::start()
   }
 
   // Create subscriber
-  image_sub_ = image_transport::create_subscription(
-      nh_.get(), topic_, std::bind(&ImageTransportImageStreamer::imageCallback, this, std::placeholders::_1),
-      default_transport_, qos_profile.value());
+  // image_sub_ = image_transport::create_subscription(
+  //     nh_.get(), topic_, std::bind(&ImageTransportImageStreamer::imageCallback, this, std::placeholders::_1),
+  //     default_transport_, rclcpp::SensorDataQoS);
+
+  image_sub_ = nh_->create_subscription<sensor_msgs::msg::Image>(
+    topic_, rclcpp::SensorDataQoS(), std::bind(&ImageTransportImageStreamer::imageCallback, this, std::placeholders::_1));
 }
 
 void ImageTransportImageStreamer::initialize(const cv::Mat &)

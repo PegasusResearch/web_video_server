@@ -62,7 +62,9 @@ protected:
   virtual void restreamFrame(double max_age);
   virtual void initialize(const cv::Mat &);
 
-  image_transport::Subscriber image_sub_;
+  //image_transport::Subscriber image_sub_;
+  rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr image_sub_;
+
   int output_width_;
   int output_height_;
   bool invert_;

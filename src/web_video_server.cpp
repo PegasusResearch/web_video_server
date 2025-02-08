@@ -54,16 +54,22 @@ WebVideoServer::WebVideoServer(rclcpp::Node::SharedPtr &nh) :
         async_web_server_cpp::HttpReply::stock_reply(async_web_server_cpp::HttpReply::not_found))
 {
   rclcpp::Parameter parameter;
+  
   if (nh_->get_parameter("port", parameter)) {
     port_ = parameter.as_int();
   } else {
     port_ = 8080;
   }
+
+  RCLCPP_INFO_STREAM(nh_->get_logger(), "Web server port: " << port_);
+
   if (nh_->get_parameter("verbose", parameter)) {
     __verbose = parameter.as_bool();
   } else {
     __verbose = true;
   }
+
+  RCLCPP_INFO_STREAM(nh_->get_logger(), "Web server verbose: " << __verbose);
 
   if (nh_->get_parameter("address", parameter)) {
     address_ = parameter.as_string();
@@ -78,11 +84,16 @@ WebVideoServer::WebVideoServer(rclcpp::Node::SharedPtr &nh) :
     server_threads = 1;
   }
 
+  RCLCPP_INFO_STREAM(nh_->get_logger(), "Web server threads: " << server_threads);
+
   if (nh_->get_parameter("ros_threads", parameter)) {
     ros_threads_ = parameter.as_int();
   } else {
-    ros_threads_ = 2;
+    ros_threads_ = 1;
   }
+
+  RCLCPP_INFO_STREAM(nh_->get_logger(), "Web server ROS threads: " << ros_threads_);
+
   if (nh_->get_parameter("publish_rate", parameter)) {
     publish_rate_ = parameter.as_double();
   } else {
@@ -94,6 +105,8 @@ WebVideoServer::WebVideoServer(rclcpp::Node::SharedPtr &nh) :
   } else {
     __default_stream_type = "mjpeg";
   }
+
+  RCLCPP_INFO_STREAM(nh_->get_logger(), "Web server stream type: " << __default_stream_type);
 
   stream_types_["mjpeg"] = boost::shared_ptr<ImageStreamerType>(new MjpegStreamerType());
   stream_types_["png"] = boost::shared_ptr<ImageStreamerType>(new PngStreamerType());
