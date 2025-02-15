@@ -65,7 +65,7 @@ void ImageTransportImageStreamer::start()
   //     default_transport_, rclcpp::SensorDataQoS);
 
   image_sub_ = nh_->create_subscription<sensor_msgs::msg::Image>(
-    topic_, rclcpp::SensorDataQoS(), std::bind(&ImageTransportImageStreamer::imageCallback, this, std::placeholders::_1));
+    topic_, 10, std::bind(&ImageTransportImageStreamer::imageCallback, this, std::placeholders::_1));
 }
 
 void ImageTransportImageStreamer::initialize(const cv::Mat &)
